@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tasks_list = document.getElementById('tasks_list');
     const task_form = document.getElementById('add_new_task');
     const delete_btn = document.getElementById('delete_checked_btn');
+    const notification_area = document.getElementById('notification_area');
 
     // Initialisation
     updateList(tasks_list)
@@ -32,23 +33,30 @@ document.addEventListener('DOMContentLoaded', () => {
     task_form.addEventListener('submit', (e) => {
         e.preventDefault()
 
-        
         const formTitle = e.target[1].value;
         const formPriority = e.target[2].value;
 
-        addTask(formTitle, formPriority, tasks_list);
+        if (formTitle.length > 0) {
+            addTask(formTitle, formPriority, tasks_list);
+            e.target[1].value = "";
+            notification_area.innerHTML = "";
+        }
+        else notification_area.innerHTML = "<p class='error'>Veuillez saisir le nom de la tâche</p>";
     })
 
     // Delete Button Event
     delete_btn.addEventListener('click', () => {
         const taskCheckbox = document.getElementsByClassName('task_checkbox');
+        let taskDeleted = 0;
 
         for (let element of taskCheckbox) {
             if (element.checked) {
                 let newList = tasks.filter(task => task.id !== parseFloat(element.id));
                 tasks = newList;
+                taskDeleted++;
             }
         }
+        if (taskDeleted > 0) notification_area.innerHTML = `<p class='success'>${taskDeleted} tâches supprimées avec succès !</p>`;
 
         updateList(tasks_list)
     })
@@ -70,8 +78,15 @@ const addTask = (title, priority, where) => {
 const updateList = (where) => {
     where.innerHTML = "";
 
-    for (let task of tasks) {
-        const newTask = `<li><label class='priority${task.priority}'><input id=${task.id} class='task_checkbox' type='checkbox'>${task.title}</label></li>`;
-        where.innerHTML += newTask;
+    if (tasks.length > 0) {
+        tasks.sort((a, b) => a.priority - b.priority)
+        
+        for (let task of tasks) {
+            const newTask = `<li><label class='priority${task.priority}'><input id=${task.id} class='task_checkbox' type='checkbox'>${task.title}</label></li>`;
+            where.innerHTML += newTask;
+        }
+    }
+    else {
+        where.innerHTML = "<li>Il n'y a pas de tâches</li>";
     }
 }

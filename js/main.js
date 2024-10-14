@@ -18,6 +18,13 @@ let tasks = [
 ];
 let idIncrement = 4;
 
+// Local Storage Value
+const storageTasks = JSON.parse(localStorage.getItem("tasksList"));
+const storageIdIncrement = localStorage.getItem("idIncrement");
+
+if (storageTasks) tasks = storageTasks;
+if (storageIdIncrement) idIncrement = storageIdIncrement;
+
 // Page loaded Event
 document.addEventListener('DOMContentLoaded', () => {
     // Variables
@@ -85,6 +92,9 @@ const updateList = (where) => {
             const newTask = `<li><label class='priority${task.priority}'><input id=${task.id} class='task_checkbox' type='checkbox'>${task.title}</label></li>`;
             where.innerHTML += newTask;
         }
+
+        localStorage.setItem("tasksList", JSON.stringify(tasks));
+        localStorage.setItem("idIncrement", idIncrement);
     }
     else {
         where.innerHTML = "<li>Il n'y a pas de tâches</li>";

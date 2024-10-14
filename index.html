@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do List</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/main.js"></script>
+</head>
+<body>
+    <!-- Form -->
+    <form id="add_new_task">
+        <fieldset>
+            <label for="new_task_txt">Votre tâche :</label>
+            <input type="text" name="new_task_txt" id="new_task_txt" placeholder="Veuillez saisir la tâche">
+            <label for="new_task_priority">Priorité :</label>
+            <select name="new_task_priority" id="new_task_priority">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <button>Ajouter</button>
+        </fieldset>
+    </form>
+    <!-- Delete Button -->
+    <button id="delete_checked_btn">Supprimer les tâches cochés</button>
+    <!-- Task List -->
+    <ul id="tasks_list">
+        
+    </ul>
+</body>
+</html>
